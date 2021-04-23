@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Router } from "@reach/router";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 import Home from "pages/Home";
 import Add from "pages/Add";
@@ -28,12 +29,15 @@ const mockData = [
 
 const App: FunctionComponent = () => {
   return (
-    <DataProvider>
-      <Router>
-        <Home path="/" />
-        <Add path="/add" />
-      </Router>
-    </DataProvider>
+    <>
+      <CssBaseline />
+      <DataProvider>
+        <Router>
+          <Home path="/" />
+          <Add path="/add" />
+        </Router>
+      </DataProvider>
+    </>
   );
 };
 
