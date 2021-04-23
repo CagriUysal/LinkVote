@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 
-import { getData } from "../../api/storageWrapper";
+import { getDataFromLocal } from "../../api/storageWrapper";
 import ISchema from "../../api/schema";
 
-const useData = () => {
+const useData = (): [
+  ISchema[],
+  React.Dispatch<React.SetStateAction<ISchema[]>>
+] => {
   const [data, setData] = useState<ISchema[]>([]);
 
   useEffect(() => {
-    const localData = getData();
+    const localData = getDataFromLocal();
     setData(localData);
   }, []);
 

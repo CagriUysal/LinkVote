@@ -1,7 +1,7 @@
 // TODO: make wrapper functions async?
 import ISchema from "./schema";
 
-export const getData = (): ISchema[] => {
+export const getDataFromLocal = (): ISchema[] => {
   const key = process.env.REACT_APP_STORAGE_KEY;
   if (key === undefined) {
     throw new Error("Please set 'REACT_APP_STORAGE_KEY' enviroment variable.");
@@ -12,7 +12,7 @@ export const getData = (): ISchema[] => {
   return dataString ? JSON.parse(dataString) : [];
 };
 
-export const setData = (data: ISchema[]) => {
+export const setDataToLocal = (data: ISchema[]) => {
   const key = process.env.REACT_APP_STORAGE_KEY;
   if (key === undefined) {
     throw new Error("Please set 'REACT_APP_STORAGE_KEY' enviroment variable.");
