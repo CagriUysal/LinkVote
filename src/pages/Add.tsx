@@ -3,9 +3,9 @@ import { RouteComponentProps, Link } from "@reach/router";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
 import StyledLink from "@material-ui/core/Link";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import { makeStyles } from "@material-ui/core/styles";
 
 import ItemForm from "../components/ItemForm";
 

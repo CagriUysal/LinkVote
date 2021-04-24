@@ -42,6 +42,7 @@ const ItemForm = () => {
         url,
         vote: 0,
         createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ]);
 

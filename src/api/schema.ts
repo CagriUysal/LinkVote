@@ -3,4 +3,5 @@ export default interface ISchema {
   name: string;
   url: string;
   vote: number;
+  updatedAt: Date;
 }

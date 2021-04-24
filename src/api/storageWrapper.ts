@@ -1,4 +1,3 @@
-// TODO: make wrapper functions async?
 import ISchema from "./schema";
 
 export const getDataFromLocal = (): ISchema[] => {
