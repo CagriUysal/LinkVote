@@ -21,16 +21,27 @@ import { DataContext } from "../helpers/context/dataContext";
 import compareFactory, { compareTypes } from "../helpers/utils/compareFactory";
 import AddLink from "../components/AddLink";
 import LinkItem from "../components/LinkItem";
+import Header from "../components/Header";
 
 const itemPerPage = Number(process.env.REACT_APP_ITEM_PER_PAGE);
 
 const useStyles = makeStyles({
   container: {
     width: "30%",
+    minWidth: "480px",
+    padding: "1em",
     margin: "0 auto",
+    "& > *": {
+      marginTop: "1em",
+    },
   },
   select: {
     width: "50%",
+  },
+  page: {
+    alignSelf: "center",
+    marginTop: "3em",
+    marginBottom: "5em",
   },
 });
 
@@ -68,12 +79,13 @@ const Home: FunctionComponent<RouteComponentProps> = () => {
 
   return (
     <>
+      <Header />
       <Grid container direction="column" className={classes.container}>
         <AddLink />
 
         <Divider />
 
-        <FormControl>
+        <FormControl className={classes.select}>
           <InputLabel id="order-label">Order by</InputLabel>
           <Select
             labelId="order-label"
@@ -97,6 +109,7 @@ const Home: FunctionComponent<RouteComponentProps> = () => {
           color="primary"
           page={page}
           onChange={handlePageChange}
+          className={classes.page}
         />
       </Grid>
 

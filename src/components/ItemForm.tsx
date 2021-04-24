@@ -66,6 +66,7 @@ const ItemForm = () => {
           color="primary"
           className={classes.button}
           onClick={handleClick}
+          style={{ marginTop: "2em" }}
         >
           add
         </Button>

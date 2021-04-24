@@ -17,9 +17,13 @@ import { ItemSchema } from "../api/schema";
 import { DataContext } from "../helpers/context/dataContext";
 import { DELETE, UPVOTE, DOWNVOTE } from "../helpers/reducers/dataReducer";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
     position: "relative",
+    borderRadius: "1em",
+    "&:hover": {
+      backgroundColor: theme.palette.grey[100],
+    },
   },
   vote: {
     fontSize: "3em",
@@ -30,10 +34,10 @@ const useStyles = makeStyles({
   },
   deleteIcon: {
     position: "absolute",
-    top: 0,
-    right: 0,
+    top: "-0.5em",
+    right: "-0.5em",
   },
-});
+}));
 
 const LinkItem: FunctionComponent<{
   item: ItemSchema;
@@ -87,15 +91,17 @@ const LinkItem: FunctionComponent<{
             <Typography className={classes.name}>{name}</Typography>
             <Link href={url}>{`(${url})`}</Link>
 
-            <Grid item>
-              <Button onClick={handleUpvoteClick}>
-                <ArrowUpwardIcon fontSize="small" />
-                upvote
-              </Button>
-              <Button onClick={handleDownvoteClick}>
-                <ArrowDownwardIcon fontSize="small" />
-                downvote
-              </Button>
+            <Grid item style={{ marginTop: "0.5em" }}>
+              <Grid container wrap="nowrap">
+                <Button onClick={handleUpvoteClick} disableRipple>
+                  <ArrowUpwardIcon fontSize="small" />
+                  upvote
+                </Button>
+                <Button onClick={handleDownvoteClick} disableRipple>
+                  <ArrowDownwardIcon fontSize="small" />
+                  downvote
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
@@ -105,6 +111,7 @@ const LinkItem: FunctionComponent<{
           className={classes.deleteIcon}
           style={{ display: isMouseOver ? undefined : "none" }}
           onClick={handleDeleteClick}
+          edge="start"
         >
           <HighlightOffIcon />
         </IconButton>
