@@ -55,7 +55,8 @@ const reducer = (state: DataSchema, action: ACTION_TYPE): DataSchema => {
   if (type === UPVOTE) {
     const { uuid } = payload as { uuid: string };
 
-    const targetItem = state[uuid];
+    const targetItem = { ...state[uuid] };
+
     targetItem.vote += 1;
     targetItem.updatedAt = new Date().getTime();
 
@@ -65,7 +66,7 @@ const reducer = (state: DataSchema, action: ACTION_TYPE): DataSchema => {
   if (type === DOWNVOTE) {
     const { uuid } = payload as { uuid: string };
 
-    const targetItem = state[uuid];
+    const targetItem = { ...state[uuid] };
 
     if (targetItem.vote === 0) return state;
 

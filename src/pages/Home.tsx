@@ -52,7 +52,7 @@ const Home: FunctionComponent<RouteComponentProps> = () => {
   const [toastOpen, setToastOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [deletedName, setDeletedName] = useState("");
-  const [orderBy, setOrderBy] = useState<null | "asc" | "desc">(null);
+  const [orderBy, setOrderBy] = useState<"" | "asc" | "desc">("");
   const [compareMethod, setCompareMethod] = useState<compareTypes>(
     "createdAtDesc"
   );
@@ -69,7 +69,7 @@ const Home: FunctionComponent<RouteComponentProps> = () => {
   };
 
   useEffect(() => {
-    if (orderBy === null) return;
+    if (orderBy === "") return;
     if (orderBy == "asc") setCompareMethod("votesAsc");
     if (orderBy == "desc") setCompareMethod("votesDesc");
   }, [orderBy]);
