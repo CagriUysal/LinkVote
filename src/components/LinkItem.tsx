@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState, useContext } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -13,7 +13,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import { makeStyles } from "@material-ui/core/styles";
 
-import ISchema from "../api/schema";
+import { ItemSchema } from "../api/schema";
+import { DataContext } from "../helpers/context/dataContext";
+import { DELETE, UPVOTE, DOWNVOTE } from "../helpers/reducers/dataReducer";
 
 const useStyles = makeStyles({
   container: {
@@ -33,15 +35,15 @@ const useStyles = makeStyles({
   },
 });
 
-const LinkItem: FunctionComponent<{ item: ISchema }> = ({
-  item: { name, url, vote },
-}) => {
+const LinkItem: FunctionComponent<{
+  item: ItemSchema;
+  onItemDelete: (name: string) => void;
+}> = ({ item: { name, url, vote, uuid }, onItemDelete }) => {
   const classes = useStyles();
+  const [_, dispatch] = useContext(DataContext);
+
   const [isMouseOver, setIsMouseOver] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const handleUpvoteClick = () => console.log("upvote");
-  const handleDownvoteClick = () => console.log("downvote");
 
   const handleDeleteClick = () => setIsDialogOpen(true);
   const handleDialogClose = () => setIsDialogOpen(false);
@@ -49,10 +51,14 @@ const LinkItem: FunctionComponent<{ item: ISchema }> = ({
   const handleMouseEnter = () => setIsMouseOver(true);
   const handleMouseLeave = () => setIsMouseOver(false);
 
-  const handleDeleteConfirm = () => {
-    console.log("delete");
+  const handleUpvoteClick = () => dispatch({ type: UPVOTE, payload: { uuid } });
+  const handleDownvoteClick = () =>
+    dispatch({ type: DOWNVOTE, payload: { uuid } });
 
+  const handleDeleteConfirm = () => {
+    dispatch({ type: DELETE, payload: { uuid } });
     handleDialogClose();
+    onItemDelete(name);
   };
 
   return (
@@ -104,6 +110,7 @@ const LinkItem: FunctionComponent<{ item: ISchema }> = ({
         </IconButton>
       </Grid>
 
+      {/* confirm dialog */}
       <Dialog open={isDialogOpen} onClose={handleDialogClose}>
         <DialogTitle id="alert-dialog-title">
           Do you want to remove: <br /> {name}

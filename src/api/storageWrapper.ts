@@ -1,6 +1,6 @@
-import ISchema from "./schema";
+import DataSchema from "./schema";
 
-export const getDataFromLocal = (): ISchema[] => {
+export const getDataFromLocal = (): DataSchema => {
   const key = process.env.REACT_APP_STORAGE_KEY;
   if (key === undefined) {
     throw new Error("Please set 'REACT_APP_STORAGE_KEY' enviroment variable.");
@@ -8,10 +8,10 @@ export const getDataFromLocal = (): ISchema[] => {
 
   const dataString = localStorage.getItem(key);
 
-  return dataString ? JSON.parse(dataString) : [];
+  return dataString ? JSON.parse(dataString) : {};
 };
 
-export const setDataToLocal = (data: ISchema[]) => {
+export const setDataToLocal = (data: DataSchema) => {
   const key = process.env.REACT_APP_STORAGE_KEY;
   if (key === undefined) {
     throw new Error("Please set 'REACT_APP_STORAGE_KEY' enviroment variable.");

@@ -8,6 +8,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { DataContext } from "../helpers/context/dataContext";
+import { ADD } from "../helpers/reducers/dataReducer";
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ItemForm = () => {
-  const [_, setData] = useContext(DataContext);
+  const [_, dispatch] = useContext(DataContext);
   const classes = useStyles();
 
   const [name, setName] = useState("");
@@ -35,17 +36,7 @@ const ItemForm = () => {
     setUrl(event.target.value);
 
   const handleClick = () => {
-    setData((prevData) => [
-      ...prevData,
-      {
-        name,
-        url,
-        vote: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ]);
-
+    dispatch({ type: ADD, payload: { name, url } });
     setToastOpen(true);
   };
 

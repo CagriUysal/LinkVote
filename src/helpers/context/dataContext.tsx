@@ -1,23 +1,33 @@
-import React, { FunctionComponent, createContext } from "react";
+import DataSchema from "api/schema";
+import React, {
+  FunctionComponent,
+  createContext,
+  useReducer,
+  useEffect,
+} from "react";
 
-import useData from "../hooks/useData";
-import { setDataToLocal } from "../../api/storageWrapper";
+import { setDataToLocal, getDataFromLocal } from "../../api/storageWrapper";
+import reducer, { INIT, ACTION_TYPE } from "../reducers/dataReducer";
 
 export const DataContext = createContext(
-  ([] as unknown) as ReturnType<typeof useData>
+  ([] as unknown) as [DataSchema, React.Dispatch<ACTION_TYPE>]
 );
 
 const DataProvider: FunctionComponent = ({ children }) => {
-  // TODO: change useData to reducer.
-  const [data, setData] = useData();
+  const [state, dispatch] = useReducer(reducer, {});
+
+  useEffect(() => {
+    const data = getDataFromLocal();
+    dispatch({ type: INIT, payload: { data } });
+  }, []);
 
   // save the data to local storage when user descided to leave the page
   window.onbeforeunload = () => {
-    setDataToLocal(data);
+    setDataToLocal(state);
   };
 
   return (
-    <DataContext.Provider value={[data, setData]}>
+    <DataContext.Provider value={[state, dispatch]}>
       {children}
     </DataContext.Provider>
   );
