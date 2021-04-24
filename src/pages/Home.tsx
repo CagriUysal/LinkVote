@@ -1,20 +1,36 @@
-import React, { FunctionComponent, useContext, useState } from "react";
+import React, {
+  FunctionComponent,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 import { RouteComponentProps } from "@reach/router";
 
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
+import Alert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Pagination from "@material-ui/lab/Pagination";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { DataContext } from "../helpers/context/dataContext";
+import compareFactory, { compareTypes } from "../helpers/utils/compareFactory";
 import AddLink from "../components/AddLink";
 import LinkItem from "../components/LinkItem";
-import Alert from "@material-ui/lab/Alert";
-import Snackbar from "@material-ui/core/Snackbar";
+
+const itemPerPage = Number(process.env.REACT_APP_ITEM_PER_PAGE);
 
 const useStyles = makeStyles({
   container: {
     width: "30%",
     margin: "0 auto",
+  },
+  select: {
+    width: "50%",
   },
 });
 
@@ -23,13 +39,32 @@ const Home: FunctionComponent<RouteComponentProps> = () => {
   const [data] = useContext(DataContext);
 
   const [toastOpen, setToastOpen] = useState(false);
+  const [page, setPage] = useState(1);
   const [deletedName, setDeletedName] = useState("");
+  const [orderBy, setOrderBy] = useState<null | "asc" | "desc">(null);
+  const [compareMethod, setCompareMethod] = useState<compareTypes>(
+    "createdAtDesc"
+  );
 
-  const handleClose = () => setToastOpen(false);
+  const handleToastClose = () => setToastOpen(false);
+
+  const handleOrderChange = (event: any) => setOrderBy(event.target.value);
+
+  const handlePageChange = (_: any, value: number) => setPage(value);
+
   const onItemDelete = (name: string) => {
     setToastOpen(true);
     setDeletedName(name);
   };
+
+  useEffect(() => {
+    if (orderBy === null) return;
+    if (orderBy == "asc") setCompareMethod("votesAsc");
+    if (orderBy == "desc") setCompareMethod("votesDesc");
+  }, [orderBy]);
+
+  const dataArray = Object.values(data);
+  const pageCount = Math.ceil(dataArray.length / itemPerPage) || 1;
 
   return (
     <>
@@ -38,13 +73,39 @@ const Home: FunctionComponent<RouteComponentProps> = () => {
 
         <Divider />
 
-        {Object.values(data).map((item) => (
-          <LinkItem key={item.name} item={item} onItemDelete={onItemDelete} />
-        ))}
+        <FormControl>
+          <InputLabel id="order-label">Order by</InputLabel>
+          <Select
+            labelId="order-label"
+            value={orderBy}
+            onChange={handleOrderChange}
+          >
+            <MenuItem value="desc">{"Most Voted(Z->A)"}</MenuItem>
+            <MenuItem value="asc">{"Less Voted(A->Z)"}</MenuItem>
+          </Select>
+        </FormControl>
+
+        {dataArray
+          .sort(compareFactory(compareMethod))
+          .splice((page - 1) * itemPerPage, page * itemPerPage) // pagination
+          .map((item) => (
+            <LinkItem key={item.uuid} item={item} onItemDelete={onItemDelete} />
+          ))}
+
+        <Pagination
+          count={pageCount}
+          color="primary"
+          page={page}
+          onChange={handlePageChange}
+        />
       </Grid>
 
       {/* toast */}
-      <Snackbar open={toastOpen} onClose={handleClose} autoHideDuration={2000}>
+      <Snackbar
+        open={toastOpen}
+        onClose={handleToastClose}
+        autoHideDuration={2000}
+      >
         <Alert variant="filled" severity="success">
           {`${deletedName} deleted`}
         </Alert>

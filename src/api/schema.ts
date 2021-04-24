@@ -1,10 +1,10 @@
 export interface ItemSchema {
   uuid: string;
-  createdAt: Date;
   name: string;
   url: string;
   vote: number;
-  updatedAt: Date;
+  createdAt: number;
+  updatedAt: number;
 }
 
 export default interface DataSchema {

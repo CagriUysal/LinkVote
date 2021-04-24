@@ -32,11 +32,11 @@ const reducer = (state: DataSchema, action: ACTION_TYPE): DataSchema => {
     const newItem: DataSchema = {
       [uuid]: {
         uuid,
-        createdAt: new Date(),
         name,
         url,
         vote: 0,
-        updatedAt: new Date(),
+        createdAt: new Date().getTime(),
+        updatedAt: new Date().getTime(),
       },
     };
 
@@ -57,7 +57,7 @@ const reducer = (state: DataSchema, action: ACTION_TYPE): DataSchema => {
 
     const targetItem = state[uuid];
     targetItem.vote += 1;
-    targetItem.updatedAt = new Date();
+    targetItem.updatedAt = new Date().getTime();
 
     return { ...state, [uuid]: targetItem };
   }
@@ -70,7 +70,7 @@ const reducer = (state: DataSchema, action: ACTION_TYPE): DataSchema => {
     if (targetItem.vote === 0) return state;
 
     targetItem.vote -= 1;
-    targetItem.updatedAt = new Date();
+    targetItem.updatedAt = new Date().getTime();
 
     return { ...state, [uuid]: targetItem };
   }
