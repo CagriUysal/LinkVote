@@ -10,19 +10,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import ItemForm from "../components/ItemForm";
 import Header from "../components/Header";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
-    width: "35%",
-    minWidth: "300px",
-    margin: "0 auto",
-    "& > *": {
-      marginTop: "1em",
-    },
+    ...theme.layout,
   },
   text: {
     textTransform: "capitalize",
   },
-});
+}));
 
 const Add: FunctionComponent<RouteComponentProps> = () => {
   const classes = useStyles();

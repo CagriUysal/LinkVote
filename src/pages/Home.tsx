@@ -25,15 +25,9 @@ import Header from "../components/Header";
 
 const itemPerPage = Number(process.env.REACT_APP_ITEM_PER_PAGE);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
-    width: "30%",
-    minWidth: "480px",
-    padding: "1em",
-    margin: "0 auto",
-    "& > *": {
-      marginTop: "1em",
-    },
+    ...theme.layout,
   },
   select: {
     width: "50%",
@@ -43,7 +37,7 @@ const useStyles = makeStyles({
     marginTop: "3em",
     marginBottom: "5em",
   },
-});
+}));
 
 type orderByType = "" | "asc" | "desc";
 

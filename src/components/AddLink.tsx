@@ -33,12 +33,14 @@ const AddLink = () => {
       <Grid
         container
         alignItems="center"
-        justify="space-around"
+        justify="center"
         wrap="nowrap"
         className={classes.container}
       >
         <AddBoxIcon className={classes.addItemIcon} />
-        <Typography className={classes.addItemText}>submit a link</Typography>
+        <Typography className={classes.addItemText} align="center">
+          submit a link
+        </Typography>
       </Grid>
     </StyledLink>
   );
