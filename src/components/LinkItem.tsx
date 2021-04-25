@@ -44,7 +44,7 @@ const LinkItem: FunctionComponent<{
   onItemDelete: (name: string) => void;
 }> = ({ item: { name, url, vote, uuid }, onItemDelete }) => {
   const classes = useStyles();
-  const [_, dispatch] = useContext(DataContext);
+  const [, dispatch] = useContext(DataContext);
 
   const [isMouseOver, setIsMouseOver] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);

@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ItemForm = () => {
-  const [_, dispatch] = useContext(DataContext);
+  const [, dispatch] = useContext(DataContext);
   const classes = useStyles();
 
   const [name, setName] = useState("");

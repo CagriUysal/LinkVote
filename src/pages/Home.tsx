@@ -45,6 +45,8 @@ const useStyles = makeStyles({
   },
 });
 
+type orderByType = "" | "asc" | "desc";
+
 const Home: FunctionComponent<RouteComponentProps> = () => {
   const classes = useStyles();
   const [data] = useContext(DataContext);
@@ -52,16 +54,18 @@ const Home: FunctionComponent<RouteComponentProps> = () => {
   const [toastOpen, setToastOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [deletedName, setDeletedName] = useState("");
-  const [orderBy, setOrderBy] = useState<"" | "asc" | "desc">("");
+  const [orderBy, setOrderBy] = useState<orderByType>("");
   const [compareMethod, setCompareMethod] = useState<compareTypes>(
     "createdAtDesc"
   );
 
   const handleToastClose = () => setToastOpen(false);
 
-  const handleOrderChange = (event: any) => setOrderBy(event.target.value);
+  const handleOrderChange = (event: React.ChangeEvent<{ value: unknown }>) =>
+    setOrderBy(event.target.value as orderByType);
 
-  const handlePageChange = (_: any, value: number) => setPage(value);
+  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) =>
+    setPage(value);
 
   const onItemDelete = (name: string) => {
     setToastOpen(true);
