@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { DataContext } from "../helpers/context/dataContext";
 import { ADD } from "../helpers/reducers/dataReducer";
+import isValidUrl from "../helpers/utils/isValidUrl";
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -28,6 +29,8 @@ const ItemForm = () => {
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [toastOpen, setToastOpen] = useState(false);
+  const [error, setError] = useState(false);
+  const [helperText, setHelperText] = useState<undefined | string>(undefined);
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setName(event.target.value);
@@ -35,12 +38,21 @@ const ItemForm = () => {
   const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setUrl(event.target.value);
 
+  const handleClose = () => setToastOpen(false);
+  const clearError = () => setError(false);
+
   const handleClick = () => {
+    if (!isValidUrl(url)) {
+      setError(true);
+      setHelperText("Please provide a valid url");
+      return;
+    }
+
     dispatch({ type: ADD, payload: { name, url } });
     setToastOpen(true);
-  };
 
-  const handleClose = () => setToastOpen(false);
+    setHelperText(undefined);
+  };
 
   return (
     <>
@@ -59,6 +71,9 @@ const ItemForm = () => {
           className={classes.textField}
           value={url}
           onChange={handleUrlChange}
+          helperText={helperText}
+          error={error}
+          onFocus={clearError}
         />
 
         <Button

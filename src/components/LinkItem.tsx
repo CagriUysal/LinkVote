@@ -52,8 +52,8 @@ const LinkItem: FunctionComponent<{
   const handleDeleteClick = () => setIsDialogOpen(true);
   const handleDialogClose = () => setIsDialogOpen(false);
 
-  const handleMouseEnter = () => setIsMouseOver(true);
-  const handleMouseLeave = () => setIsMouseOver(false);
+  const handleMouseOver = () => setIsMouseOver(true);
+  const handleMouseOut = () => setIsMouseOver(false);
 
   const handleUpvoteClick = () => dispatch({ type: UPVOTE, payload: { uuid } });
   const handleDownvoteClick = () =>
@@ -72,8 +72,8 @@ const LinkItem: FunctionComponent<{
         wrap="nowrap"
         alignItems="center"
         className={classes.container}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
       >
         {/* left side (votes) */}
         <Grid item xs={4}>
@@ -120,7 +120,14 @@ const LinkItem: FunctionComponent<{
       {/* confirm dialog */}
       <Dialog open={isDialogOpen} onClose={handleDialogClose}>
         <DialogTitle id="alert-dialog-title">
-          Do you want to remove: <br /> {name}
+          <Grid container direction="column" alignItems="center">
+            <Typography variant="subtitle1" style={{ fontSize: "1em" }}>
+              Do you want to remove:
+            </Typography>
+            <Typography variant="subtitle2" style={{ fontSize: "1.5em" }}>
+              {name}
+            </Typography>
+          </Grid>
         </DialogTitle>
         <DialogActions>
           <Button onClick={handleDeleteConfirm} color="primary">
